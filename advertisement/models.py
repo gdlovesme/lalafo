@@ -4,6 +4,9 @@ class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=50, primary_key=True)
 
+    def __str__(self):
+        return self.name
+
 
 STATUS_CHOICES = (
     ('open', 'Открытое'),
@@ -16,9 +19,13 @@ class Advertisement(models.Model):
     text = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE,
                                  related_name='ads')
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='open')
     city = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
 
 class AdvertisementGallery(models.Model):
     advertisement = models.ForeignKey(Advertisement, on_delete=models.CASCADE,
